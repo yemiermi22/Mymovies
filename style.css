@@ -1,0 +1,89 @@
+
+
+#movieName{
+    border-radius: 25px;
+    width: 500px;
+}
+#searchBtn{
+    border-radius: 25px;
+
+}
+body
+ {background-color: palevioletred}
+#movies{
+    width:100%;
+    display:flex;
+    flex-wrap: wrap;
+}
+#movies li{
+    flex:1;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    list-style: none;
+    margin:10px;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    background: white;
+}
+#movies li img{
+        width: 100%;
+        height: 250px;
+    }
+.movies li h2{
+    color:grey;
+    font-size: 1.8em;
+    padding: 15px 10px 0;
+    margin-top: auto;
+    font-family: "oswald",sans-serif;
+}
+
+
+#movieGrid{
+    width: 150%;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 30px;
+    padding: 20px;
+    margin: auto;
+    margin-top: 2%;
+
+}
+.gridDiv{
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: burlywood;
+  
+}
+.gridDivImg{
+    width: 100%;
+    height: 250px;
+}
+.divMovieName, .movieType, .movieYear, .movieGenre, .movieRating{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.divMovieName{
+    display: flex;
+    justify-content: space-between;
+}
+.recommended{
+    display: flex;
+    margin-top: 0%;
+    margin-bottom: 0%;
+    text-align: right;
+    font-size: 22px;
+    color: #008000;
+}
+#errorImg{
+    width: 100%;
+
+}
+#errorBox{
+    width: 700px;
+    margin: auto;
+    text-align: center;
+
+}
