@@ -1,114 +1,87 @@
+ 
+    function createCard(title, image, description) {
+      const card = document.createElement("div");
+      card.className = "col-sm-6 col-md-4 col-lg-3 mb-4";
 
-function search(query){
-    const url=`https://imdb-api.com/API/SearchMovie/k_u8b9g55h/string=${query}`
-    fetch(url)
-    .then((response) => response.json())
-    .then((data) =>{
-   const ok=data.results;
-        renderresult(ok);
-        document.getElementById("errormessage").innerHTML="";
-    })
-    .catch((error)=>{
-        document.getElementById("errormessage").innerHTML=error;
-        renderresult([]);
-    })
+      const imgWrapper = document.createElement("div");
+      imgWrapper.className = "card-img-wrapper";
+      card.appendChild(imgWrapper);
+
+      const img = document.createElement("img");
+      img.src = image;
+      img.alt = title;
+      img.className = "card-img-top";
+      imgWrapper.appendChild(img);
+
+      const cardBody = document.createElement("div");
+      cardBody.className = "card-body";
+      card.appendChild(cardBody);
+
+      const h4 = document.createElement("h4");
+      h4.className = "card-title";
+      h4.textContent = title;
+      cardBody.appendChild(h4);
+
+      const p = document.createElement("p");
+      p.className = "card-text";
+      p.textContent = description;
+      cardBody.appendChild(p);
+
+      const addButton = document.createElement("button");
+      addButton.className = "btn btn-dark";
+      addButton.textContent = "Watch Now";
+      addButton.addEventListener("click", function () {
+        console.log("Added", title, "to My List");
+      });
+      cardBody.appendChild(addButton);
+
+      return card;
+    }
+
+    function search() {
+      const searchInput = document.getElementById("searchInput").value.trim();
+      if (!searchInput) return;
+
+      fetch("https://imdb-api.com/API/Search/k_j1oyp2ho/${searchInput}")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          const output = document.getElementById("output");
+          output.innerHTML = "";
+          data.results.forEach((result) => {
+            const card = createCard(
+              result.title,
+              result.image,
+              result.description
+            );
+            output.appendChild(card);
+          });
+        })
+        .catch((error) => console.error(error));
+    }
+
+    function fetchAndDisplay(url) {
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          const output = document.getElementById("output");
+          output.innerHTML = "";
+          data.items.forEach((item) => {
+            const card = createCard(item.title, item.image, item.description);
+            output.appendChild(card);
+          });
+        })
+        .catch((error) => console.error(error));
+    }
+    function displayMostPopularTVs() {
+fetchAndDisplay('https://imdb-api.com/API/MostPopularTVs/k_3e39uoq2');
 }
 
 
-function renderresult(ok){
-    const list=document.getElementById("searchBar");
-    ok.forEach(result =>{
-     
-        var div =document.createElement('div');
-        const elements=document.createElement("div");
-        elements.innerText =result.title;
-        div.setAttribute('class','gridDiv');
-        var img=document.createElement('img');
-       img.setAttribute('src', result.image);
-       img.setAttribute('class', 'gridDivImg');
-        list.appendChild(elements);
-        list.appendChild(img);
-document.querySelector('#movieGrid').append(list)
-    });
-}
-let serachtimeout =0;
-window.onload = () =>{
-    const newElements = document.getElementById("movieName");
-    newElements.onkeyup=(event)=>{
-if(newElements.value.length===0){
-    return;
-}
-
-        clearTimeout(serachtimeout);
-        serachtimeout = setTimeout(() =>{
-    search(newElements.value);
-
-},250);
-        
-   
-};
-}
-
-
-
-
-	function fetchData(){	
-fetch('https://imdb-api.com/API/ComingSoon/k_u8b9g55h')
-	.then(response =>{
-if(!response.ok){
-	throw Error("Error");
-}
-	return response.json();
-	})
-	.then(data  => {
-		console.log(data);
-		for(let i=0;i<=10;i++) {
-		const moviedis=
-		 `<div class ="movies">
-			
-			<li onclick="fun(this.value)"><button value="${data.items[i]}"><img src="${data.items[i].image}"> </li></button>
-			<li><p> ${data.items[i].description}</p></li>
-			<li>name ${data.items[i].title}</li>
-			</div>`;
-		
-		
-		
-		document.querySelector('#movies').innerHTML+=moviedis
-	}
-	})
-	
-	}
-fetchData();
-
-
-function fun(id){
-	fetch('https://imdb-api.com/API/SearchTitle/k_u8b9g55h/string')
-	
-	.then(response =>{
-		if(!response.ok){
-			throw Error("Error");
-		}
-			return response.json();
-			})
-			.then(data => {
-				console.log(data);
-				const moviedis =
-		 `<div class="movies">
-			
-			<li><button><img src="${data.items.image}"></button> </li>
-			<li><p> ${data.items.description}</p></li>
-			<li>name ${data.items.title}</li>
-			</div>`;
-			
-		document.querySelector('#ab').innerHTML+=moviedis
-				
-})
-}
-
-
-
-
-
+    function displayComingSoon() {
+      fetchAndDisplay("https://imdb-api.com/API/ComingSoon/k_j1oyp2ho");
+    }
 
 
 
